@@ -11,7 +11,7 @@
               href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
               integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
               crossorigin="anonymous">
-        <link rel='stylesheet' href={% static 'css/main.css' %}>
+        <link rel='stylesheet' href={{ PORTAL_URL }}{% static 'css/main.css' %}>
         {% block extra_css %}{% endblock extra_css %}
     </head>
 
@@ -42,9 +42,26 @@
             <div class='row' id='sub-header'>
                 <div class='col-xs-12'>
                     <ul class="nav nav-tabs">
-                      <li role="presentation" class="active"><a href={% url 'home' %}>Студенти</a></li>
-                      <li role="presentation"><a href="/journal">Відвідування</a></li>
-                      <li role="presentation"><a href={% url 'groups' %}>Групи</a></li>
+                      <li role="presentation"
+                          {% url 'home' as path_home %}
+                          {% if request.path == path_home %}
+                            class="active"
+                          {% endif %}>
+                          <a href={% url 'home' %}>Студенти</a>
+                      </li>
+                      <li role="presentation"
+                          {% if '/journal' in request.path %}
+                            class="active"
+                          {% endif %}>
+                          <a href="/journal">Відвідування</a>
+                      </li>
+                      <li role="presentation"
+                          {% url 'groups' as path_groups %}
+                          {% if path_groups in request.path %}
+                            class="active"
+                          {% endif %}>
+                          <a href={% url 'groups' %}>Групи</a>
+                      </li>
                     </ul>
                 </div>
             </div>

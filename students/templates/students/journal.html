@@ -1,0 +1,76 @@
+{% extends 'students/base.html' %}
+
+{% load static from staticfiles %}
+
+{% block meta_title %}Відвідування{% endblock meta_title %}
+
+{% block title %}Облік відвідування{% endblock title %}
+
+{% block content %}
+
+    <!-- Month -->
+
+    <nav id="month_journal_navigation">
+        <ul class='pagination'>
+            <li><a href='#'>&larr;</a></li>
+            <li><a href='#'>Жовтень 2017</a></li>
+            <li><a href='#'>&rarr;</a></li>
+        </ul>
+    </nav>
+
+    <!-- Start Students Listing -->
+    <table class="table table-hover table-striped table-bordered">
+
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Студент</th>
+                <th>Ср<p>1</th>
+                <th>Чт<p>2</th>
+                <th>Пт<p>3</th>
+                <th>Сб<p>4</th>
+                <th>Вс<p>5</th>
+                <th>Пн<p>6</th>
+                <th>Вт<p>7</th>
+                <th>Ср<p>8</th>
+                <th>Чт<p>9</th>
+                <th>Пт<p>10</th>
+                <th>Сб<p>11</th>
+                <th>Вс<p>12</th>
+                <th>Пн<p>13</th>
+                <th>Вт<p>14</th>
+                <th>Ср<p>15</th>
+                <th>Чт<p>16</th>
+                <th>Пт<p>17</th>
+                <th>Сб<p>18</th>
+                <th>Вс<p>19</th>
+                <th>Пн<p>20</th>
+                <th>Вт<p>21</th>
+                <th>Ср<p>22</th>
+                <th>Чт<p>23</th>
+                <th>Пт<p>24</th>
+                <th>Сб<p>25</th>
+                <th>Вс<p>26</th>
+                <th>Пн<p>27</th>
+                <th>Вт<p>28</th>
+                <th>Вс<p>29</th>
+                <th>Пн<p>30</th>
+                <th>Вт<p>31</th>
+            </tr>
+        </thead>
+
+        <tbody>
+{#            {% for group in groups %}#}
+            <tr>
+                <td>1</td>
+                <td><a href='#'>111</a></td>
+                <td></td>
+                <td></td>
+            </tr>
+{#            {% endfor %}#}
+        </tbody>
+
+    </table>
+
+{% endblock content %}
+

@@ -60,14 +60,43 @@
         </thead>
 
         <tbody>
-{#            {% for group in groups %}#}
+            {% for journal in journals %}
             <tr>
-                <td>1</td>
-                <td><a href='#'>111</a></td>
-                <td></td>
-                <td></td>
+                <td>{{ forloop.counter }}</td>
+                <td><a href='#'>{{ journal.student_name }}</a></td>
+                <th><input type="checkbox" name="day_1" checked></th>
+                <th><input type="checkbox" name="day_2"></th>
+                <th><input type="checkbox" name="day_3"></th>
+                <th><input type="checkbox" name="day_4"></th>
+                <th><input type="checkbox" name="day_5"></th>
+                <th><input type="checkbox" name="day_6"></th>
+                <th><input type="checkbox" name="day_7"></th>
+                <th><input type="checkbox" name="day_8"></th>
+                <th><input type="checkbox" name="day_9"></th>
+                <th><input type="checkbox" name="day_10"></th>
+                <th><input type="checkbox" name="day_11"></th>
+                <th><input type="checkbox" name="day_12"></th>
+                <th><input type="checkbox" name="day_13"></th>
+                <th><input type="checkbox" name="day_14"></th>
+                <th><input type="checkbox" name="day_15"></th>
+                <th><input type="checkbox" name="day_16"></th>
+                <th><input type="checkbox" name="day_17"></th>
+                <th><input type="checkbox" name="day_18"></th>
+                <th><input type="checkbox" name="day_19"></th>
+                <th><input type="checkbox" name="day_20"></th>
+                <th><input type="checkbox" name="day_21"></th>
+                <th><input type="checkbox" name="day_22"></th>
+                <th><input type="checkbox" name="day_23"></th>
+                <th><input type="checkbox" name="day_24"></th>
+                <th><input type="checkbox" name="day_25"></th>
+                <th><input type="checkbox" name="day_26"></th>
+                <th><input type="checkbox" name="day_27"></th>
+                <th><input type="checkbox" name="day_28"></th>
+                <th><input type="checkbox" name="day_29"></th>
+                <th><input type="checkbox" name="day_30"></th>
+                <th><input type="checkbox" name="day_31" checked></th>
             </tr>
-{#            {% endfor %}#}
+            {% endfor %}
         </tbody>
 
     </table>

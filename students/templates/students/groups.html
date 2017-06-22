@@ -16,9 +16,33 @@
 
         <thead>
             <tr>
-                <th><a href="">#</a></th>
-                <th><a href="">Назва &uarr;</a></th>
-                <th><a href="">Староста</a></th>
+
+                {% with order_by=request.GET.order_by reverse=request.GET.reverse %}
+
+                <th>
+                    <a href="{% url 'groups' %}?order_by=id{% if order_by == 'id' and reverse != '1' %}&amp;reverse=1{% endif %}">
+                        №
+                        {% if order_by == 'id' and reverse != '1' %}&uarr;
+                        {% elif order_by == 'id' and reverse == '1' %}&darr;
+                        {% endif %}
+                    </a>
+                </th>
+                <th>
+                    <a href="{% url 'groups' %}?order_by=title{% if order_by == 'title' and reverse != '1' %}&amp;reverse=1{% endif %}">
+                        Назва
+                        {% if order_by %}
+                            {% if order_by == 'title' and reverse != '1' %}&uarr;
+                            {% elif order_by == 'title' and reverse == '1' %}&darr;
+                            {% endif %}
+                        {% else %}
+                            &uarr;
+                        {% endif %}
+                    </a>
+                </th>
+
+                {% endwith %}
+
+                <th>Староста</th>
                 <th>Дії</th>
             </tr>
         </thead>
@@ -26,9 +50,15 @@
         <tbody>
             {% for group in groups %}
             <tr>
-                <td>{{ forloop.counter }}</td>
-                <td><a href={% url 'groups_edit' group.id %}>{{ group.group_name }}</a></td>
-                <td><a href={% url 'groups_edit' group.id %}>{{ group.group_starosta }}</a></td>
+                <td>
+                    {% if request.GET.reverse != '1' %}{{ forloop.counter }}{% else %}{{ forloop.revcounter }}{% endif %}
+                </td>
+                <td><a href={% url 'groups_edit' group.id %}>{{ group.title }}</a></td>
+                <td>
+                    <a href={% url 'groups_edit' group.id %}>
+                        {{ group.leader.first_name }}{{ group.leader.last_name }}
+                    </a>
+                </td>
                 <td>
                     <div class='dropdown'>
                         <button class='btn btn-default dropdown-toggle'
@@ -55,14 +85,21 @@
 
     </table>
 
-    <nav>
-        <ul class='pagination'>
-            <li><a href='#'>&laquo;</a></li>
-            <li><a href='#'>1</a></li>
-            <li><a href='#'>2</a></li>
-            <li><a href='#'>&raquo;</a></li>
-        </ul>
-    </nav>
+   {% if groups.has_other_pages %}
+        {% with order_by=request.GET.order_by reverse=request.GET.reverse %}
+        <nav>
+            <ul class='pagination'>
+                <li><a href="{% url 'groups' %}?page=1&amp;order_by={{ order_by }}&amp;reverse={{ reverse }}">&laquo;</a></li>
+                {% for p in groups.paginator.page_range %}
+                    <li {% if groups.number == p %}class='active'{% endif %}>
+                        <a href="{% url 'groups' %}?page={{ p }}&amp;order_by={{ order_by }}&amp;reverse={{ reverse }}">{{ p }}</a>
+                    </li>
+                {% endfor %}
+                <li><a href="{% url 'groups' %}?page={{ groups.paginator.num_pages }}&amp;order_by={{ order_by }}&amp;reverse={{ reverse }}">&raquo;</a></li>
+            </ul>
+        </nav>
+        {% endwith %}
+    {% endif %}
 
 {% endblock content %}
 

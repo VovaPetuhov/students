@@ -1,14 +1,36 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+
+from students.models import Group
 
 
 # Views for Groups
 
 
 def groups_list(request):
-    groups = ({'id': 1, 'group_name': 'МтМ - 21', 'group_starosta': 'Корост Андрій'},
-              {'id': 2, 'group_name': 'МтМ - 22', 'group_starosta': 'Зінкевич Петро'},
-              {'id': 3, 'group_name': 'МтМ - 23', 'group_starosta': 'Простий Микола'})
+    groups = Group.objects.all()
+
+    # try to order/reverse groups list
+    order_by = request.GET.get('order_by', '')
+    if order_by in ('id', 'title'):
+        groups = groups.order_by(order_by)
+        if request.GET.get('reverse', '') == '1':
+            groups = groups.reverse()
+    else:
+        groups = groups.order_by('title')
+
+    # paginate groups
+    paginator = Paginator(groups, 3)
+    page = request.GET.get('page')
+    try:
+        groups = paginator.page(page)
+    except PageNotAnInteger:
+        groups = paginator.page(1)
+    except EmptyPage:
+        groups = paginator.page(paginator.num_pages)
+
     return render(request, 'students/groups.html', {'groups': groups})
 
 

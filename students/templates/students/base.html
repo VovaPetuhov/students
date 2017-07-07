@@ -44,27 +44,33 @@
             <div class='row' id='sub-header'>
                 <div class='col-xs-12'>
                     <ul class="nav nav-tabs">
-                      <li role="presentation"
-                          {% url 'home' as path_home %}
-                          {% if request.path == path_home %}
-                            class="active"
-                          {% endif %}>
-                          <a href={% url 'home' %}>Студенти</a>
-                      </li>
-                      <li role="presentation"
-                          {% url 'journal' as path_journal %}
-                          {% if path_journal in request.path %}
-                            class="active"
-                          {% endif %}>
-                          <a href={% url 'journal' %}>Відвідування</a>
-                      </li>
-                      <li role="presentation"
-                          {% url 'groups' as path_groups %}
-                          {% if path_groups in request.path %}
-                            class="active"
-                          {% endif %}>
-                          <a href={% url 'groups' %}>Групи</a>
-                      </li>
+                        <li role="presentation"
+                            {% url 'home' as path_home %}
+                                {% if request.path == path_home %}
+                                    class="active"
+                                {% endif %}>
+                            <a href={% url 'home' %}>Студенти</a>
+                        </li>
+                        <li role="presentation"
+                            {% url 'journal' as path_journal %}
+                                {% if path_journal in request.path %}
+                                    class="active"
+                                {% endif %}>
+                            <a href={% url 'journal' %}>Відвідування</a>
+                        </li>
+                        <li role="presentation"
+                            {% url 'groups' as path_groups %}
+                                {% if path_groups in request.path %}
+                                    class="active"
+                                {% endif %}>
+                            <a href={% url 'groups' %}>Групи</a>
+                        </li>
+                        <li role='presentation'
+                            {% url 'contact_admin' as path_contact_admin %}
+                                {% if path_contact_admin in request.path %}
+                                    class="active"
+                                {% endif %}>
+                            <a href='{% url 'contact_admin' %}'>Контакт</a></li>
                     </ul>
                 </div>
             </div>

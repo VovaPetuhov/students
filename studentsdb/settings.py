@@ -87,7 +87,13 @@ DATABASES = {
         'HOST': 'localhost',
         'USER': 'vasia',
         'PASSWORD': 'password',
-    },
+        # 'USER': 'root',
+        # 'PASSWORD': '431790',
+        'TEST': {
+            'CHARSET': 'utf8',
+            'COLLATION': 'utf8_general_ci',
+        }
+    }
 }
 
 

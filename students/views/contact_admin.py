@@ -60,7 +60,7 @@ class ContactView(FormView):
 
     def get_context_data(self, **kwargs):
         context = super(ContactView, self).get_context_data(**kwargs)
-        context['tittle'] = 'Редагувати Студента'
+        context['tittle'] = 'Зв’язок із Адміністратором'
         return context
 
     def get(self, request, *args, **kwargs):

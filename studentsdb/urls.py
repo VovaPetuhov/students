@@ -30,12 +30,12 @@ urlpatterns = [
 
     # Groups urls
     url(r'^groups/$', groups.groups_list, name='groups'),
-    url(r'^groups/add/$', groups.groups_add, name='groups_add'),
-    url(r'^groups/(?P<gid>\d+)/edit/$', groups.groups_edit, name='groups_edit'),
-    url(r'^groups/(?P<pk>\d+)/delete/$', groups.GroupDeleteView.as_view(), name='groups_delete'),
+    url(r'^groups/add/$', groups.GroupsAddView.as_view(), name='groups_add'),
+    url(r'^groups/(?P<pk>\d+)/edit/$', groups.GroupsUpdateView.as_view(), name='groups_edit'),
+    url(r'^groups/(?P<pk>\d+)/delete/$', groups.GroupsDeleteView.as_view(), name='groups_delete'),
 
     # Journal urls
-    url(r'^journal/$', journal.journal_list, name='journal'),
+    url(r'^journal/$', journal.JournalView.as_view(), name='journal'),
 
     # Contact_admin urls
     url(r'^contact_admin/$', contact_admin.ContactView.as_view(), name='contact_admin'),

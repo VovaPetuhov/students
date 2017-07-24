@@ -2,104 +2,70 @@
 
 {% load static from staticfiles %}
 
-{% block meta_title %}Відвідування{% endblock meta_title %}
+{% block meta_title %}Облік Відвідування{% endblock meta_title %}
 
-{% block title %}Облік відвідування{% endblock title %}
+{% block title %}Облік Відвідування{% endblock title %}
 
 {% block content %}
 
-    <!-- Month -->
-
-    <nav id="month_journal_navigation">
-        <ul class='pagination'>
-            <li><a href='#'>&larr;</a></li>
-            <li><a href='#'>Жовтень 2017</a></li>
-            <li><a href='#'>&rarr;</a></li>
-        </ul>
-    </nav>
-
-    <!-- Start Students Listing -->
-    <table class="table table-hover table-striped table-bordered">
-
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Студент</th>
-                <th>Ср<p>1</th>
-                <th>Чт<p>2</th>
-                <th>Пт<p>3</th>
-                <th>Сб<p>4</th>
-                <th>Вс<p>5</th>
-                <th>Пн<p>6</th>
-                <th>Вт<p>7</th>
-                <th>Ср<p>8</th>
-                <th>Чт<p>9</th>
-                <th>Пт<p>10</th>
-                <th>Сб<p>11</th>
-                <th>Вс<p>12</th>
-                <th>Пн<p>13</th>
-                <th>Вт<p>14</th>
-                <th>Ср<p>15</th>
-                <th>Чт<p>16</th>
-                <th>Пт<p>17</th>
-                <th>Сб<p>18</th>
-                <th>Вс<p>19</th>
-                <th>Пн<p>20</th>
-                <th>Вт<p>21</th>
-                <th>Ср<p>22</th>
-                <th>Чт<p>23</th>
-                <th>Пт<p>24</th>
-                <th>Сб<p>25</th>
-                <th>Вс<p>26</th>
-                <th>Пн<p>27</th>
-                <th>Вт<p>28</th>
-                <th>Вс<p>29</th>
-                <th>Пн<p>30</th>
-                <th>Вт<p>31</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            {% for journal in journals %}
-            <tr>
-                <td>{{ forloop.counter }}</td>
-                <td><a href='#'>{{ journal.student_name }}</a></td>
-                <th><input type="checkbox" name="day_1" checked></th>
-                <th><input type="checkbox" name="day_2"></th>
-                <th><input type="checkbox" name="day_3"></th>
-                <th><input type="checkbox" name="day_4"></th>
-                <th><input type="checkbox" name="day_5"></th>
-                <th><input type="checkbox" name="day_6"></th>
-                <th><input type="checkbox" name="day_7"></th>
-                <th><input type="checkbox" name="day_8"></th>
-                <th><input type="checkbox" name="day_9"></th>
-                <th><input type="checkbox" name="day_10"></th>
-                <th><input type="checkbox" name="day_11"></th>
-                <th><input type="checkbox" name="day_12"></th>
-                <th><input type="checkbox" name="day_13"></th>
-                <th><input type="checkbox" name="day_14"></th>
-                <th><input type="checkbox" name="day_15"></th>
-                <th><input type="checkbox" name="day_16"></th>
-                <th><input type="checkbox" name="day_17"></th>
-                <th><input type="checkbox" name="day_18"></th>
-                <th><input type="checkbox" name="day_19"></th>
-                <th><input type="checkbox" name="day_20"></th>
-                <th><input type="checkbox" name="day_21"></th>
-                <th><input type="checkbox" name="day_22"></th>
-                <th><input type="checkbox" name="day_23"></th>
-                <th><input type="checkbox" name="day_24"></th>
-                <th><input type="checkbox" name="day_25"></th>
-                <th><input type="checkbox" name="day_26"></th>
-                <th><input type="checkbox" name="day_27"></th>
-                <th><input type="checkbox" name="day_28"></th>
-                <th><input type="checkbox" name="day_29"></th>
-                <th><input type="checkbox" name="day_30"></th>
-                <th><input type="checkbox" name="day_31" checked></th>
-            </tr>
-            {% endfor %}
-        </tbody>
-
-    </table>
-
+    {% if not students %}
+        <div class='alert alert-warning'>
+            Поки немає жодного студента в базі. Будь-ласка,
+            <a href='{% url 'students_add' %}'>додайте</a> першого.
+        </div>
+    {% else %}
+        <p id='journal-nav' class='text-center'>
+            <a href='?month={{ prev_month }}' title='Попередній Місяць'>&larr;</a>
+            <!-- TODO: translate month name -->
+            <strong>{{ month_verbose }} {{ year }}</strong>
+            <a href='?month={{ next_month }}' title='Наступний Місяць'>&rarr;</a>
+        </p>
+        <table class='table table-hover table-striped table-bordered' id='students-journal'>
+            <thead>
+                <tr class='header'>
+                    <th class='num'>#</th>
+                    <th class='name'>Студент</th>
+                    {% for day in month_header %}
+                        <th class='day-header'>
+                            <!-- TODO: translate day name -->
+                            {{ day.verbose }} <br /> {{ day.day }}
+                        </th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody> {% csrf_token %}
+                {% for student in students %}
+                    <tr>
+                        <td>
+                            {% if is_paginated %}
+                                {{ page_obj.start_index|add:forloop.counter|add:'-1' }}
+                            {% else %}
+                                {{ forloop.counter }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a title='Редагувати' target='_blank' href='{% url 'students_edit' student.id %}'>
+                                {{ student.fullname }}
+                            </a>
+                        </td>
+                        {% for day in student.days %}
+                            <td class='day-box'>
+                                <input type='checkbox'
+                                       data-student-id='{{ student.id }}'
+                                       data-date='{{ day.date }}'
+                                       data-url='{{ student.update_url }}'
+                                       value='1'
+                                       {% if day.present %}
+                                            checked='checked'
+                                       {% endif %}>
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+    {% with object_list=students %}
+        {% include 'students/pagination.html' %}
+    {% endwith %}
 {% endblock content %}
-
